@@ -1,0 +1,26 @@
+.movies-list{
+    display: inline-flex;
+    flex-wrap: wrap;
+    margin-top: 10%;
+    margin-left: 5%;
+    width: 100%;
+    align-content: center;
+}
+
+.movie-card-poster{
+    width: 150px;
+    height: 200px;
+    border-radius: 20px 0 0 20px;
+}
+
+.movie-card {
+    display: flex;
+    background-color: #1b2750;
+    border-radius: 20px;
+    width: calc(100vw/3 - 5%);
+    margin: 10px;
+}
+
+.movie-details{
+    padding-left: 5%;
+}

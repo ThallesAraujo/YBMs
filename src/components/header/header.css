@@ -1,0 +1,51 @@
+.logo{
+    color: #FA8334;
+    font-size: 30px;
+  }
+
+  a{
+    text-decoration: none;
+  }
+  
+  .logo-container{
+    padding-left: 5vw;
+    display: flex;
+    align-items: center;
+  }
+  
+  .second{
+    font-family: "Quicksand";
+    color: white;
+    font-size: 20px;
+  }
+  
+  
+  nav{
+    padding: 20px;
+    padding-right: 0px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    overflow: hidden;
+  }
+  
+  .nav-link-container{
+    position: absolute;
+    right: 5vw;
+  }
+  
+  .nav-link{
+    color: #FA8334;
+    display: inline;
+    padding-left: 10px;
+  }
+  
+  .nav-link-container i{
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 20px;
+    color: #FA8334;
+    display: inline-block;
+    list-style: none;
+  }

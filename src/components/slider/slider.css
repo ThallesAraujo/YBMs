@@ -1,0 +1,21 @@
+.slider{
+    display: flex;
+    margin: 5em;
+    background-color: #1b2750;
+    border-radius: 50px;
+}
+
+.attraction-info{
+    margin: 5em;
+}
+
+.attraction-title{
+    font-family: 'Quicksand', sans-serif;
+    color: #FA8334;
+}
+
+.slider-poster{
+    min-width: 300px;
+    height: 450px;
+    border-radius: 50px 0 0 50px;
+}
