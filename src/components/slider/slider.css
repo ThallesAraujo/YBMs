@@ -11,10 +11,12 @@
 
 .attraction-title{
     font-family: 'Quicksand', sans-serif;
+    cursor: pointer;
     color: #FA8334;
 }
 
 .slider-poster{
+    cursor: pointer;
     min-width: 300px;
     height: 450px;
     border-radius: 50px 0 0 50px;

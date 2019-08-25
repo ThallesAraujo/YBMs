@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import './slider.css';
 
 export default class Slider extends React.Component {
@@ -50,15 +51,19 @@ export default class Slider extends React.Component {
         })
     }
 
+    navigateToDetails = () =>{
+        window.location = `/details/${this.state.attractionInSlider.attractionType}/${this.state.attractionInSlider.id}`;
+    }
+
 
     getTopAttractions = () => {
         axios.get('https://api.themoviedb.org/3/movie/420818?api_key=c18fec111ebd528f496fa9e56d50f3b1').then(resp => {
             console.log('Movie', resp.data);
-            this.setState({ movie: resp.data, attractionInSlider: resp.data });
+            this.setState({ movie: resp.data, attractionInSlider: {attractionType: 'movie', ...resp.data} });
         });
         axios.get('https://api.themoviedb.org/3/tv/60735?api_key=c18fec111ebd528f496fa9e56d50f3b1').then(resp => {
             console.log('Serie', resp.data);
-            this.setState({ serie: { title: resp.data.original_name, ...resp.data } });
+            this.setState({ serie: { title: resp.data.original_name, attractionType: 'tv', ...resp.data } });
         });
 
     }
@@ -68,9 +73,13 @@ export default class Slider extends React.Component {
         return (
 
             <div className="slider">
-                <img className="slider-poster" src={this.getPoster(this.state.attractionInSlider.poster_path)} alt="poster" />
+                
+                    <img onClick={() => this.navigateToDetails()} className="slider-poster" src={this.getPoster(this.state.attractionInSlider.poster_path)} alt="poster" />
+                
                 <div className="attraction-info">
-                    <h1 className="attraction-title">{this.state.attractionInSlider.title}</h1>
+                    
+                    <h1 onClick={() => this.navigateToDetails()} className="attraction-title">{this.state.attractionInSlider.title}</h1>
+                    
                     <p>{this.state.attractionInSlider.vote_average}</p>
                     <p>{this.state.attractionInSlider.overview}</p>
 

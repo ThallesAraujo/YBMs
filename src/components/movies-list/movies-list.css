@@ -21,6 +21,15 @@
     margin: 10px;
 }
 
+
+.movie-title{
+    color: #FA8334;
+}
+
 .movie-details{
     padding-left: 5%;
+}
+
+.card-actions{
+    display: flex;
 }
