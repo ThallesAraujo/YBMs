@@ -27,43 +27,49 @@ export default class Details extends Component {
 
                     <div className="attraction-info">
 
-                        <h1 className="attraction-title">{this.props.match.params.type==='tv'? this.state.attraction.original_name: this.state.attraction.title}</h1>
+                        <h1 className="attraction-title">{this.props.match.params.type === 'tv' ? this.state.attraction.original_name : this.state.attraction.title}</h1>
 
                         <p>{this.state.attraction.vote_average}</p>
                         <p>{this.state.attraction.runtime} min</p>
                         <p>{this.state.attraction.overview}</p>
+                        <div>
+                            <button onClick={this.getIsFavorite(this.state.attraction) ? () => this.removeFromFavorites(this.state.attraction) : () => this.addToFavorites(this.state.attraction)}>
+                                <i className={this.getIsFavorite(this.state.attraction) ? 'fas fa-heart' : 'far fa-heart'}></i>
+                                {this.getIsFavorite(this.state.attraction) ? 'Remove From Favorites' : 'Add to Favorites'}
+                            </button>
+                        </div>
 
                     </div>
                 </div>
-                    <div>
-                        <h3>Cast</h3>
-                        <div className="container">
+                <div>
+                    <h3>Cast</h3>
+                    <div className="container">
                         {this.state.cast.map(cast => {
                             return <div className="cast-card">
-                                <img src={this.getPoster(cast.profile_path)} alt="profile-image"/>
+                                <img src={this.getPoster(cast.profile_path)} alt="profile-image" />
                                 <p>{cast.name}</p>
                                 <p>as {cast.character}</p>
                             </div>
                         })}
-                        </div>
                     </div>
-                    <div>
-                        <h3>Videos & Trailers</h3>
-                        <div className="container">
-                        {this.state.videos.map(video =>{
-                            return <div className="video-card" onClick={() => this.redirectToVideo(video.key)}> 
+                </div>
+                <div>
+                    <h3>Videos & Trailers</h3>
+                    <div className="container">
+                        {this.state.videos.map(video => {
+                            return <div className="video-card" onClick={() => this.redirectToVideo(video.key)}>
                                 <i className="far fa-play-circle"></i>
                                 <p>{video.name}</p>
                             </div>
                         })}
-                        </div>
                     </div>
+                </div>
 
                 <div>
                     <h3>Reviews</h3>
                     <div className="container">
-                    {this.state.reviews.map(review =>{
-                            return <div className="review-bubble"> 
+                        {this.state.reviews.map(review => {
+                            return <div className="review-bubble">
                                 <h2>{review.author}</h2>
                                 <p>{review.content.substring(0, 500)}[...]</p>
                             </div>
@@ -81,8 +87,28 @@ export default class Details extends Component {
         return `https://image.tmdb.org/t/p/w500/${poster_path}`
     }
 
-    redirectToVideo = (key) =>{
+    redirectToVideo = (key) => {
         window.open(`https://www.themoviedb.org/video/play?key=${key}`);
+    }
+
+    getIsFavorite = (movie) => {
+        var favorites = JSON.parse(sessionStorage.getItem('favorites'));
+        return favorites && favorites.find(fav => fav.id === movie.id);
+    }
+
+    removeFromFavorites = (movie) => {
+        var favorites = JSON.parse(sessionStorage.getItem('favorites'));
+        favorites.splice(favorites.indexOf(favorites.find(fav => fav.id === movie.id)), 1);
+        sessionStorage.setItem('favorites', JSON.stringify(favorites));
+        this.setState({});
+    }
+
+    addToFavorites = (movie) => {
+        let savedFavorites = sessionStorage.getItem('favorites') ? JSON.parse(sessionStorage.getItem('favorites')) : [];
+        let favorites = [movie, ...savedFavorites];
+        sessionStorage.setItem('favorites', JSON.stringify(favorites));
+        console.log('Favorites', JSON.parse(sessionStorage.getItem('favorites')));
+        this.setState({});
     }
 
     getAttraction = () => {

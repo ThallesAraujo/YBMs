@@ -25,7 +25,7 @@ export default class Main extends Component {
         <Slider></Slider>
         <button onClick={() => this.switchView()}>{this.state.view === 'movie'? 'View Top Series': 'View Top Movies'}</button>
         <button onClick={() => this.orderByReleaseDate()}>Order by Release Date</button>
-        <MoviesList movies={this.state.currentView} isFavorites="false"></MoviesList>
+        <MoviesList refreshCallback={() => this.refresh} movies={this.state.currentView} isFavorites={false}></MoviesList>
      </div>
     );
   }
@@ -38,6 +38,9 @@ export default class Main extends Component {
     }
   }
 
+  refresh = () =>{
+    this.getMovies();
+  }
 
 
   getMovies = () => {

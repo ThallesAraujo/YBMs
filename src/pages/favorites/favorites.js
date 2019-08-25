@@ -6,32 +6,47 @@ import axios from 'axios';
 export default class Favorites extends Component {
 
   state = {
-      favoriteMovies : []
+    favoriteMovies: [],
+    view : 'movie'
   }
 
-  componentDidMount(){
-      this.getMovies();
+  constructor(props) {
+    super(props)
+    this.refreshHandler = this.refreshHandler.bind(this)
   }
-    
+
+
+  componentDidMount() {
+    this.getMovies();
+  }
+
   render() {
     return (
-        <div>
-            <h1>Favorites</h1>
-            <MoviesList movies = {this.state.favoriteMovies}></MoviesList>
-        </div>
+      <div>
+        <h1>Favorites</h1>
+        <button onClick={() => this.switchView()}>{this.state.view === 'movie'? 'Switch to Series': 'Switch to Movies'}</button>
+        <MoviesList refreshCallback={this.refreshHandler} movies={this.state.favoriteMovies} isFavorites={true}></MoviesList>
+      </div>
     );
   }
 
-  getMovies = () => {
-  //Pegar filmes que estão em cartaz
-  //   axios.get('https://api.themoviedb.org/3/discover/movie?primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22').then(resp => {
-  //    console.log('Movies', resp.data.results);
-  //    this.setState({ favoriteMovies: resp.data.results});
-  //  });
+  refreshHandler = () => {
+    this.getMovies();
+    console.log('atualizou')
+  }
 
-  let favorites = sessionStorage.getItem('favorites')? JSON.parse(sessionStorage.getItem('favorites')): [];
-  this.setState({favoriteMovies: favorites});
-  
-}
+  getMovies = () => {
+    let favorites = sessionStorage.getItem('favorites') ? JSON.parse(sessionStorage.getItem('favorites')) : [];
+    this.setState({ favoriteMovies: favorites.filter(attr => attr.attractionType === 'movie') });
+  }
+
+  switchView = () =>{
+    let favorites = sessionStorage.getItem('favorites') ? JSON.parse(sessionStorage.getItem('favorites')) : [];
+    if(this.state.view === 'movie'){
+      this.setState({ favoriteMovies: favorites.filter(attr => attr.attractionType === 'tv'), view: 'tv' });
+    }else{
+      this.setState({ favoriteMovies: favorites.filter(attr => attr.attractionType === 'movie'), view: 'movie' });
+    }
+  }
 
 }
