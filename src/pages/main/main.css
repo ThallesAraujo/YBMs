@@ -1,0 +1,9 @@
+.subheader{
+    display: flex;
+    padding-left: 5vw;
+}
+
+.subheader-title{
+    padding-right: 10px;
+    font-size: 30px;
+}

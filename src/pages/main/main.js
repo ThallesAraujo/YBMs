@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Slider from '../../components/slider/slider';
 import MoviesList from '../../components/movies-list/movies-list';
 import axios from 'axios';
+import './main.css'
 
 // import { Container } from './styles';
 
@@ -23,8 +24,17 @@ export default class Main extends Component {
     return (
      <div>
         <Slider></Slider>
-        <button onClick={() => this.switchView()}>{this.state.view === 'movie'? 'View Top Series': 'View Top Movies'}</button>
-        <button onClick={() => this.orderByReleaseDate()}>Order by Release Date</button>
+        <div className="subheader">
+          <h2 className="subheader-title">{this.state.view === 'movie'? 'Top Movies': 'Top Series'}</h2>
+          <button className="btn-action" onClick={() => this.switchView()}>
+            <i className="fas fa-star"></i>
+          {this.state.view === 'movie'? 'View Top Series': 'View Top Movies'}
+          </button>
+          <button className="btn-action" onClick={() => this.orderByReleaseDate()}>
+          <i className="fas fa-sort"></i>
+            Order by Release Date
+            </button>
+        </div>
         <MoviesList refreshCallback={() => this.refresh} movies={this.state.currentView} isFavorites={false}></MoviesList>
      </div>
     );

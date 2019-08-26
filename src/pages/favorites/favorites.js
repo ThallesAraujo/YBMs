@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import MoviesList from '../../components/movies-list/movies-list';
 import axios from 'axios';
+import './favorites.css'
 
 // import { Container } from './styles';
 export default class Favorites extends Component {
 
   state = {
     favoriteMovies: [],
-    view : 'movie'
+    view: 'movie'
   }
 
   constructor(props) {
@@ -23,8 +24,13 @@ export default class Favorites extends Component {
   render() {
     return (
       <div>
-        <h1>Favorites</h1>
-        <button onClick={() => this.switchView()}>{this.state.view === 'movie'? 'Switch to Series': 'Switch to Movies'}</button>
+        <div className="subheader">
+          <h1 className="subheader-title">{this.state.view === 'movie' ? 'My Favorite Movies' : 'My Favorite Series'}</h1>
+          <button className="btn-action" onClick={() => this.switchView()}>
+          <i class="fas fa-exchange-alt"></i>
+          {this.state.view === 'movie' ? 'Switch to Series' : 'Switch to Movies'}
+          </button>
+        </div>
         <MoviesList refreshCallback={this.refreshHandler} movies={this.state.favoriteMovies} isFavorites={true}></MoviesList>
       </div>
     );
@@ -40,11 +46,11 @@ export default class Favorites extends Component {
     this.setState({ favoriteMovies: favorites.filter(attr => attr.attractionType === 'movie') });
   }
 
-  switchView = () =>{
+  switchView = () => {
     let favorites = sessionStorage.getItem('favorites') ? JSON.parse(sessionStorage.getItem('favorites')) : [];
-    if(this.state.view === 'movie'){
+    if (this.state.view === 'movie') {
       this.setState({ favoriteMovies: favorites.filter(attr => attr.attractionType === 'tv'), view: 'tv' });
-    }else{
+    } else {
       this.setState({ favoriteMovies: favorites.filter(attr => attr.attractionType === 'movie'), view: 'movie' });
     }
   }

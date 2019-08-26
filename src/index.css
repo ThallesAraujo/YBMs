@@ -12,3 +12,16 @@ body{
   font-family: "Montserrat", sans-serif;
 }
 
+.btn-action{
+  background-color: transparent;
+  color: #FA8334;
+  border-color: transparent;
+  font-family: 'Quicksand';
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+.btn-action i{
+  padding-right: 10px;
+}

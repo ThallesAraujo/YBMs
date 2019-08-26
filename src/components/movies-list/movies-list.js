@@ -30,9 +30,9 @@ export default class MoviesList extends Component {
                                         onClick={this.getIsFavorite(movie) ? () => this.removeFromFavorites(movie) : () => this.addToFavorites(movie)}></i>
                                 </div>
                                 <div hidden={!this.props.isFavorites}>
-                                    <i className="fas fa-trash" onClick={() => this.props.removeFavoriteCallback(this.props.movie)}></i>
+                                    <i className="fas fa-trash" style={{ cursor: 'pointer' }} onClick={() => this.props.removeFavoriteCallback(this.props.movie)}></i>
                                 </div>
-                                <Sidebar movie={movie} isFavoritePage={this.props.isFavorites} addFavoriteCallback={(movie) => this.addToFavorites(movie)} removeFavoriteCallback={(movie) => this.removeFromFavorites(movie)}></Sidebar>
+                                <Sidebar attraction={movie} isFavoritePage={this.props.isFavorites} addFavoriteCallback={(movie) => this.addToFavorites(movie)} removeFavoriteCallback={(movie) => this.removeFromFavorites(movie)}></Sidebar>
                             </div>
                         </div>
                     </div>

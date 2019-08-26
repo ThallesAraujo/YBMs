@@ -20,7 +20,9 @@ export default class Details extends Component {
     render() {
         return (
             <div>
-                <h1>Details</h1>
+                <div className="subheader">
+                    <h1 className="subheader-title">Details</h1>
+                </div>
                 <div className="banner">
 
                     <img className="banner-poster" src={this.getPoster(this.state.attraction.poster_path)} alt="poster" />
@@ -29,11 +31,11 @@ export default class Details extends Component {
 
                         <h1 className="attraction-title">{this.props.match.params.type === 'tv' ? this.state.attraction.original_name : this.state.attraction.title}</h1>
 
-                        <p>{this.state.attraction.vote_average}</p>
-                        <p>{this.state.attraction.runtime} min</p>
+                        <p><i className="fas fa-star" style={{paddingRight: '10px'}}></i>{this.state.attraction.vote_average}</p>
+                        <p><i className="fas fa-clock" style={{paddingRight: '10px'}}></i>{this.state.attraction.runtime? `${this.state.attraction.runtime} min` : `${this.state.attraction.number_of_episodes} episodes`}</p>
                         <p>{this.state.attraction.overview}</p>
                         <div>
-                            <button onClick={this.getIsFavorite(this.state.attraction) ? () => this.removeFromFavorites(this.state.attraction) : () => this.addToFavorites(this.state.attraction)}>
+                            <button className="btn-action" onClick={this.getIsFavorite(this.state.attraction) ? () => this.removeFromFavorites(this.state.attraction) : () => this.addToFavorites(this.state.attraction)}>
                                 <i className={this.getIsFavorite(this.state.attraction) ? 'fas fa-heart' : 'far fa-heart'}></i>
                                 {this.getIsFavorite(this.state.attraction) ? 'Remove From Favorites' : 'Add to Favorites'}
                             </button>
@@ -42,19 +44,26 @@ export default class Details extends Component {
                     </div>
                 </div>
                 <div>
-                    <h3>Cast</h3>
+                    <div className="subheader">
+
+                        <h3>Cast</h3>
+                    </div>
                     <div className="container">
                         {this.state.cast.map(cast => {
                             return <div className="cast-card">
                                 <img src={this.getPoster(cast.profile_path)} alt="profile-image" />
-                                <p>{cast.name}</p>
-                                <p>as {cast.character}</p>
+                                <div className="actor-info">
+                                    <p className="actor-name">{cast.name}</p>
+                                    <p className="role-label">as {cast.character}</p>
+                                </div>
                             </div>
                         })}
                     </div>
                 </div>
                 <div>
-                    <h3>Videos & Trailers</h3>
+                    <div className="subheader">
+                        <h3>Videos & Trailers</h3>
+                    </div>
                     <div className="container">
                         {this.state.videos.map(video => {
                             return <div className="video-card" onClick={() => this.redirectToVideo(video.key)}>
@@ -66,14 +75,16 @@ export default class Details extends Component {
                 </div>
 
                 <div>
-                    <h3>Reviews</h3>
+                    <div className="subheader">
+                        <h3>Reviews</h3>
+                    </div>
                     <div className="container">
-                        {this.state.reviews.map(review => {
+                        {this.state.reviews.length > 0? this.state.reviews.map(review => {
                             return <div className="review-bubble">
-                                <h2>{review.author}</h2>
+                                <h2><i className="fas fa-user" style={{ paddingRight: '10px' }}></i>{review.author? review.author: 'Unknown'}</h2>
                                 <p>{review.content.substring(0, 500)}[...]</p>
                             </div>
-                        })}
+                        }): <p>No reviews available</p>}
                     </div>
                 </div>
 
@@ -111,10 +122,10 @@ export default class Details extends Component {
         this.setState({});
     }
 
-    getAttraction = () => {
+     getAttraction = () => {
         axios.get(`https://api.themoviedb.org/3/${this.props.match.params.type}/${this.props.match.params.id}?api_key=c18fec111ebd528f496fa9e56d50f3b1`).then(resp => {
             console.log('Movie', resp.data);
-            this.setState({ attraction: resp.data });
+            this.setState({ attraction: {attractionType: this.props.match.params.type, title: this.props.match.params.type==='tv'?resp.data.original_name: resp.data.title,  ...resp.data} });
         });
 
         //elenco
@@ -132,7 +143,7 @@ export default class Details extends Component {
         //reviews
         axios.get(`https://api.themoviedb.org/3/${this.props.match.params.type}/${this.props.match.params.id}/reviews?api_key=c18fec111ebd528f496fa9e56d50f3b1`).then(resp => {
             console.log('reviews', resp.data.results);
-            this.setState({ reviews: resp.data.results });
+            this.setState({ reviews: resp.data.results.length > 2? [resp.data.results[0], resp.data.results[1], resp.data.results[2]]: resp.data.results });
         });
     }
 
